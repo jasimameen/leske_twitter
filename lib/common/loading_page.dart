@@ -12,6 +12,7 @@ class Loader extends StatelessWidget {
 }
 
 class LoadingPage extends StatelessWidget {
+  static const routeName = '/loading-page';
   const LoadingPage({super.key});
 
   @override

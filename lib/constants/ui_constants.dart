@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../theme/theme.dart';
+import '../theme/theme.dart';
 import 'assets_constants.dart';
 
 class UIConstants {
@@ -13,4 +13,12 @@ class UIConstants {
         ),
         centerTitle: true,
       );
+
+  static List<Widget> bottomTabBarPages = const [
+    Text('news feed'),
+    Text('search'),
+    Text('twitter circle'),
+    Text('notifications'),
+    Text('message'),
+  ];
 }

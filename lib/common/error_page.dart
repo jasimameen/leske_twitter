@@ -16,16 +16,17 @@ class ErrorText extends StatelessWidget {
 }
 
 class ErrorPage extends StatelessWidget {
-  final String error;
+  static const routeName = '/error-page';
+  final String? error;
   const ErrorPage({
     super.key,
-    required this.error,
+    this.error = 'Something went wrong!!',
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ErrorText(error: error),
+      body: ErrorText(error: error!),
     );
   }
 }

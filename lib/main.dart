@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'core/navigation/navigation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:twitter_clone/core/utils/messengers/messenger.dart';
+import 'core/utils/navigation/navigation.dart';
 import 'routes.dart';
 import 'theme/app_theme.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const ProviderScope(child: MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: Navigation.instance,
+      navigatorKey: Navigation.getInstance(),
+      scaffoldMessengerKey: Messanger.getInstance(),
       title: 'Leske Twitter',
       theme: AppTheme.theme,
       themeMode: ThemeMode.dark,

@@ -1,24 +1,33 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../../core/constants/constants.dart';
-import '../../../core/navigation/navigation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
+import '../../../constants/constants.dart';
+import '../../../core/utils/navigation/navigation.dart';
 import 'signup_view.dart';
 import '../widgets/auth_field.dart';
 import '../../../theme/theme.dart';
 
-import '../../../core/common/common.dart';
+import '../../../common/common.dart';
 
-class LoginView extends StatefulWidget {
+class LoginView extends ConsumerStatefulWidget {
   static const routeName = '/login';
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends ConsumerState<LoginView> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  void onLogin() {
+    ref.read(authControllerProvider.notifier).signIn(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+  }
 
   @override
   void dispose() {
@@ -27,11 +36,10 @@ class _LoginViewState extends State<LoginView> {
     passwordController.dispose();
   }
 
-  onLogin() {}
-
   @override
   Widget build(BuildContext context) {
-    final isLoading = false;
+    final isLoading = ref.watch(authControllerProvider);
+
     return Scaffold(
       appBar: UIConstants.appBar,
       body: Center(
@@ -77,7 +85,8 @@ class _LoginViewState extends State<LoginView> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   // redirect to signup view
-                                  Navigation.state.pushNamed(SignUpView.routeName);
+                                  Navigation.route
+                                      .pushNamed(SignUpView.routeName);
                                 },
                             ),
                           ],

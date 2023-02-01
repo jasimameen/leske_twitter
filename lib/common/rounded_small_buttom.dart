@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/pallete.dart';
+import '../theme/pallete.dart';
 
 class RoundedSmallButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -17,7 +17,7 @@ class RoundedSmallButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Chip(
         label: Text(
