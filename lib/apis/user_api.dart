@@ -7,10 +7,13 @@ import 'package:twitter_clone/constants/constants.dart';
 import 'package:twitter_clone/core/errors/failures.dart';
 import 'package:twitter_clone/core/providers.dart';
 import 'package:twitter_clone/core/type_defs.dart';
+import 'package:twitter_clone/core/utils/messengers/messenger.dart';
 import 'package:twitter_clone/models/user_model.dart';
 
-final userApiProvider =
-    Provider((ref) => UserApi(ref.read(appwriteDatabaseProvider)));
+final userApiProvider = Provider((ref) => UserApi(
+      ref.watch(appwriteDatabaseProvider),
+      ref.watch(appwriteRealtimeProvider),
+    ));
 
 abstract class IUserApi {
   FutureEither<void> saveUser(UserModel user);
@@ -24,8 +27,9 @@ abstract class IUserApi {
 
 class UserApi implements IUserApi {
   final Databases _databases;
+  final Realtime _realtime;
 
-  UserApi(this._databases);
+  UserApi(this._databases, this._realtime);
 
   @override
   FutureEitherVoid saveUser(UserModel user) async {
@@ -46,6 +50,8 @@ class UserApi implements IUserApi {
           context: ErrorDescription(err.message ?? 'Db exception'),
         ),
       );
+
+      Messanger.showSnackBar(err.message ?? 'DB Error Save User');
 
       return left(Failure(err.message ?? 'Something went wrong', stackTrace));
     }
@@ -79,6 +85,7 @@ class UserApi implements IUserApi {
           context: ErrorDescription(err.message ?? 'Db exception'),
         ),
       );
+      Messanger.showSnackBar(err.message ?? 'DB Error Update User');
 
       return left(Failure(err.message ?? 'Something went wrong', stackTrace));
     }
@@ -145,8 +152,11 @@ class UserApi implements IUserApi {
     }
   }
 
+  // RealtimeSubscription can be used to listen to events on the channels in realtime and to close the subscription to stop listening.
   @override
   Stream<RealtimeMessage> getLatestUserProfile() {
-    return const Stream.empty();
+    return _realtime.subscribe([
+      'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.userCollectionId}.documents'
+    ]).stream;
   }
 }

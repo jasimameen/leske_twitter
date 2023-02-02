@@ -22,11 +22,55 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  onCreateTweet() {
-  }
+  onCreateTweet() {}
 
   @override
   Widget build(BuildContext context) {
+    var navBarItems = [
+          // home
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _page == 0
+                  ? AssetsConstants.homeFilledIcon
+                  : AssetsConstants.homeOutlinedIcon,
+              color: Pallete.whiteColor,
+            ),
+          ),
+
+          // search
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              AssetsConstants.searchIcon,
+              color: Pallete.whiteColor,
+            ),
+          ),
+
+          // twitter circle
+          BottomNavigationBarItem(
+            icon: Icon(
+              _page == 2 ? CupertinoIcons.mic_fill : CupertinoIcons.mic,
+              color: Pallete.whiteColor,
+            ),
+          ),
+
+          // Notifications
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _page == 3
+                  ? AssetsConstants.notifFilledIcon
+                  : AssetsConstants.notifOutlinedIcon,
+              color: Pallete.whiteColor,
+            ),
+          ),
+
+          // Messages
+          BottomNavigationBarItem(
+            icon: Icon(
+              _page == 4 ? CupertinoIcons.mail : CupertinoIcons.mail_solid,
+              color: Pallete.whiteColor,
+            ),
+          ),
+        ];
     return Scaffold(
       appBar: _page == 0 ? UIConstants.appBar : null,
       body: IndexedStack(
@@ -46,30 +90,7 @@ class _HomeViewState extends State<HomeView> {
         currentIndex: _page,
         onTap: onPageChange,
         backgroundColor: Pallete.backgroundColor,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _page == 0
-                  ? AssetsConstants.homeFilledIcon
-                  : AssetsConstants.homeOutlinedIcon,
-              color: Pallete.whiteColor,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              AssetsConstants.searchIcon,
-              color: Pallete.whiteColor,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              _page == 2
-                  ? AssetsConstants.notifFilledIcon
-                  : AssetsConstants.notifOutlinedIcon,
-              color: Pallete.whiteColor,
-            ),
-          ),
-        ],
+        items: navBarItems,
       ),
     );
   }

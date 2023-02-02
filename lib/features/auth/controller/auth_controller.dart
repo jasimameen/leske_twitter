@@ -16,9 +16,19 @@ final authControllerProvider =
   return AuthController(authApi, userApi);
 });
 
-final currentUserProvider = FutureProvider(
-  (ref) => ref.read(authControllerProvider.notifier).currentUser(),
+final currentUserAccoundProvider = FutureProvider(
+  (ref) => ref.watch(authControllerProvider.notifier).currentUser(),
 );
+
+final userDetailsProvider = FutureProvider.family(
+  (ref, String uid) => ref.watch(authControllerProvider.notifier).getUserData(uid),
+);
+
+final currentUserDetailsProvider = FutureProvider((ref) {
+    final currentUserId = ref.watch(currentUserAccoundProvider).value!.$id;
+    final userDetails = ref.watch(userDetailsProvider(currentUserId));
+    return userDetails.value;
+},);
 
 class AuthController extends StateNotifier<bool> {
   final IAuthAPI _authAPI;
@@ -93,7 +103,7 @@ class AuthController extends StateNotifier<bool> {
       Navigation.route.restorablePushNamedAndRemoveUntil(
         SignUpView.routeName,
         (route) => false,
-      );  
+      );
     });
   }
 }

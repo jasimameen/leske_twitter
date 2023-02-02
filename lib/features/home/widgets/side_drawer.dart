@@ -10,7 +10,7 @@ class SideDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(currentUserProvider).value;
+    final currentUser = ref.watch(currentUserAccoundProvider).value;
 
     if (currentUser == null) {
       return const Loader();
@@ -33,9 +33,7 @@ class SideDrawer extends ConsumerWidget {
                   fontSize: 22,
                 ),
               ),
-              onTap: () {
-                
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(
@@ -48,9 +46,7 @@ class SideDrawer extends ConsumerWidget {
                   fontSize: 22,
                 ),
               ),
-              onTap: () {
-               
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: const Icon(
